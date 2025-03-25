@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 st.title("🚀 Marktphasen-Tool")
 st.subheader("📈 Bitcoin Live-Chart mit Marktanalyse")
 
-# 📅 Nutzer kann Startdatum & Enddatum auswählen
+# 📅 Nutzer kann Startdatum auswählen
 start_date = st.date_input("📆 Wähle das Startdatum:", value=pd.to_datetime("2017-01-01"))
 end_date = pd.to_datetime("today")  # **Setzt das Enddatum auf heute!**
 
@@ -23,9 +23,9 @@ def load_data(start_date, end_date):
 
 btc = load_data(start_date, end_date)
 
-# 🛠️ **DEBUG-SCHRITT: Zeige die ersten 20 Datenzeilen**
-st.write("📊 **Debug: BTC-Daten**")
-st.write(btc.head(20))  # **Zeige mehr als nur 5 Werte**
+# 🛠️ **DEBUG-SCHRITT: Zeige die ersten 10 Datenzeilen**
+st.write("📊 **Debug: BTC-Daten (erste 10 Zeilen)**")
+st.write(btc.head(10))  
 
 # 🔁 Falls keine Daten geladen wurden, Fehler anzeigen
 if btc.empty:
@@ -44,15 +44,21 @@ fig.add_trace(go.Scatter(
     line=dict(color='orange')
 ))
 
-# 📊 **X-Achse korrigieren, damit die Zeitachse richtig angezeigt wird**
+# 🛠️ **Fix: Sicherstellen, dass X-Achse korrekt skaliert wird**
+fig.update_xaxes(type="date")
+
+# 📊 **Layout anpassen**
 fig.update_layout(
     title="Bitcoin Kursverlauf (BTC/USD)",
     xaxis_title="Datum",
     yaxis_title="Preis in USD",
-    xaxis=dict(type="date"),  # ✅ Fix für die falsche Zeitachse!
     template="plotly_dark",
     height=600
 )
 
-# 🔹 **Chart anzeigen**
+# 🔹 **Chart anzeigen (mit mehr Debugging)**
+st.write("📊 **Debug: Plotly Chart-JSON**")
+st.write(fig.to_json())  # **DEBUG: Zeigt, ob das Chart korrekt generiert wird!**
+
 st.plotly_chart(fig)
+
