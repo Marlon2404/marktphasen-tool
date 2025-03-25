@@ -1,5 +1,6 @@
 import streamlit as st
 import yfinance as yf
+import pandas as pd  # ✅ Hier Pandas importieren!
 import plotly.graph_objects as go
 
 # 🎯 Streamlit App Titel
